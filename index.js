@@ -1,11 +1,11 @@
 class Checkout {
-  constructor(rules) {
-    this.rules = rules;
+  constructor(products) {
+    this.products = products;
     this._items = {};
   }
 
   scan(item) {
-    if (this.rules.hasOwnProperty(item)) {
+    if (this.products.hasOwnProperty(item)) {
       if (this._items.hasOwnProperty(item)) this._items[item]++;
       else this._items[item] = 1;
     }
@@ -21,16 +21,16 @@ class Checkout {
   total() {
     let totalPrice = 0;
     for (let item in this._items) {
-      if (this.rules[item][1]) {
+      if (this.products[item][1]) {
         const numberSpecials = Math.floor(
-          this._items[item] / this.rules[item][1].number
+          this._items[item] / this.products[item][1].number
         );
-        const remainder = this._items[item] % this.rules[item][1].number;
+        const remainder = this._items[item] % this.products[item][1].number;
         totalPrice +=
-          numberSpecials * this.rules[item][1].cost +
-          remainder * this.rules[item][0];
+          numberSpecials * this.products[item][1].cost +
+          remainder * this.products[item][0];
       } else {
-        totalPrice += this._items[item] * this.rules[item][0];
+        totalPrice += this._items[item] * this.products[item][0];
       }
     }
     return totalPrice;
