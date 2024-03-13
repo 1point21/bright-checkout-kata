@@ -26,21 +26,25 @@ describe('Test scan function', () => {
         const newCheckout = new Checkout(rules)
         const item = 'A'
         newCheckout.scan(item)
-        expect(newCheckout.items).toHaveProperty('A')
-        expect(newCheckout.items.A).toBe(1)
+        expect(newCheckout._items).toHaveProperty('A')
+        expect(newCheckout._items.A).toBe(1)
         newCheckout.scan(item)
-        expect(newCheckout.items.A).toBe(2)
+        expect(newCheckout._items.A).toBe(2)
       });
-      
-    test('should ', () => {
-        
+
+    test('should NOT add item to items object if does not exist in shop', () => {
+        const newCheckout = new Checkout(rules)
+        const item = 'Z'
+        newCheckout.scan(item)
+        expect(newCheckout._items).not.toHaveProperty('Z')
     });
+
       test('should add correct items to items object (multiple items)', () => {
         const newCheckout = new Checkout(rules)
         const item = 'ABCAA'
         const itemArr = item.split('')
         itemArr.forEach(item => newCheckout.scan(item))
-        expect(newCheckout.items).toMatchObject({
+        expect(newCheckout._items).toMatchObject({
             A: 3,
             B: 1,
             C: 1
@@ -49,9 +53,9 @@ describe('Test scan function', () => {
 
       test('should add correct items to items object (using scanMultiple function)', () => {
         const newCheckout = new Checkout(rules)
-        const itemList = 'ABCAA'
+        const itemList = 'ABZCAQA'
         newCheckout.scanMultiple(itemList)
-        expect(newCheckout.items).toMatchObject({
+        expect(newCheckout._items).toMatchObject({
             A: 3,
             B: 1,
             C: 1
@@ -69,9 +73,9 @@ describe('Test total function', () => {
             expect(newCheckout.total()).toEqual(price)
         })
     });
-    test.only('should return correct value (multiple types of item)', () => {
-        const itemList = ['ABCAA', 'BBBCC', 'AABBCCDD', 'DDDDCCCC']
-        const priceList = [190, 115, 215, 140]
+    test('should return correct value (multiple types of item)', () => {
+        const itemList = ['ABCAA', 'BBBCC', 'AABBCCDD', 'DDDDCCCC', 'FGH']
+        const priceList = [190, 115, 215, 140, 0]
         itemList.forEach((item, index) => {
             const newCheckout = new Checkout(rules)
             newCheckout.scanMultiple(item)
