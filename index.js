@@ -8,7 +8,18 @@ class Checkout {
     else this.items[item] = 1;
   }
   total() {
-    // need logic for totalling of items according to rules
+    let totalPrice = 0
+    for (let item in this.items){
+        if (this.rules[item][1]){
+            const numberSpecials = Math.floor(this.items[item] / this.rules[item][1].number)
+            const remainder = this.items[item] % this.rules[item][1].number
+            totalPrice += (numberSpecials * this.rules[item][1].cost) + (remainder * this.rules[item][0])
+        }
+        else{
+            totalPrice += this.items[item] * this.rules[item][0]
+        }
+    }
+    return totalPrice
   }
 }
 
