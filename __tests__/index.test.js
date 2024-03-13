@@ -1,8 +1,8 @@
 const { Checkout } = require("../index");
 
 const rules = {
-A: [50, { 3: 140 }],
-B: [30, { 2: 45 }],
+A: [50, { number: 3, cost: 140 }],
+B: [30, { number: 2, cost: 45 }],
 C: [20, null],
 D: [15, null],
 };
@@ -22,7 +22,7 @@ describe("Test Checkout class", () => {
 });
 
 describe('Test scan function', () => {
-    test.only('should add correct items to items object', () => {
+    test('should add correct item to items object (one item)', () => {
         const newCheckout = new Checkout(rules)
         const item = 'A'
         newCheckout.scan(item)
@@ -31,4 +31,29 @@ describe('Test scan function', () => {
         newCheckout.scan(item)
         expect(newCheckout.items.A).toBe(2)
       });
+
+      test('should add correct items to items object (multiple items)', () => {
+        const newCheckout = new Checkout(rules)
+        const item = 'ABCAA'
+        const itemArr = item.split('')
+        itemArr.forEach(item => newCheckout.scan(item))
+        expect(newCheckout.items).toMatchObject({
+            A: 3,
+            B: 1,
+            C: 1
+        })
+      });
+});
+
+describe.only('Test total function', () => {
+    test('should return the correct value if special price not reached (one type of item)', () => {
+        const newCheckout = new Checkout(rules) 
+        const item = 'A'
+        const priceArray = [50, 100, 140, 190, 240, 280, 330]
+        priceArray.forEach((price, index) => {
+            newCheckout.scan(item)
+            expect(newCheckout.total()).toEqual(price)
+        })
+        
+    });
 });
