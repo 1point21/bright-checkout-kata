@@ -31,7 +31,10 @@ describe('Test scan function', () => {
         newCheckout.scan(item)
         expect(newCheckout.items.A).toBe(2)
       });
-
+      
+    test('should ', () => {
+        
+    });
       test('should add correct items to items object (multiple items)', () => {
         const newCheckout = new Checkout(rules)
         const item = 'ABCAA'
@@ -44,7 +47,7 @@ describe('Test scan function', () => {
         })
       });
 
-      test.only('should add correct items to items object (using scanMultiple function)', () => {
+      test('should add correct items to items object (using scanMultiple function)', () => {
         const newCheckout = new Checkout(rules)
         const itemList = 'ABCAA'
         newCheckout.scanMultiple(itemList)
@@ -66,10 +69,13 @@ describe('Test total function', () => {
             expect(newCheckout.total()).toEqual(price)
         })
     });
-    test('should return correct value (multiple types of item)', () => {
-        const newCheckout = new Checkout(rules)
-        const item = 'ABCAA'
-        const itemArr = item.split('')
-        itemArr.forEach(item => newCheckout.scan(item))
+    test.only('should return correct value (multiple types of item)', () => {
+        const itemList = ['ABCAA', 'BBBCC', 'AABBCCDD', 'DDDDCCCC']
+        const priceList = [190, 115, 215, 140]
+        itemList.forEach((item, index) => {
+            const newCheckout = new Checkout(rules)
+            newCheckout.scanMultiple(item)
+            expect(newCheckout.total()).toEqual(priceList[index])
+        })
     });
 });
