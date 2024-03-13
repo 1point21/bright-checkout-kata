@@ -43,10 +43,21 @@ describe('Test scan function', () => {
             C: 1
         })
       });
+
+      test.only('should add correct items to items object (using scanMultiple function)', () => {
+        const newCheckout = new Checkout(rules)
+        const itemList = 'ABCAA'
+        newCheckout.scanMultiple(itemList)
+        expect(newCheckout.items).toMatchObject({
+            A: 3,
+            B: 1,
+            C: 1
+        })
+      });
 });
 
-describe.only('Test total function', () => {
-    test('should return the correct value if special price not reached (one type of item)', () => {
+describe('Test total function', () => {
+    test('should return the correct value (one type of item)', () => {
         const newCheckout = new Checkout(rules) 
         const item = 'A'
         const priceArray = [50, 100, 140, 190, 240, 280, 330]
@@ -54,6 +65,11 @@ describe.only('Test total function', () => {
             newCheckout.scan(item)
             expect(newCheckout.total()).toEqual(price)
         })
-        
+    });
+    test('should return correct value (multiple types of item)', () => {
+        const newCheckout = new Checkout(rules)
+        const item = 'ABCAA'
+        const itemArr = item.split('')
+        itemArr.forEach(item => newCheckout.scan(item))
     });
 });
