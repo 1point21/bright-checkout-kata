@@ -12,13 +12,23 @@ describe("Test Checkout class", () => {
     expect(typeof Checkout).toBe('function');
   });
   
-  test.only("should be an instance of class Checkout and have expected properties", () => {
+  test("should be an instance of class Checkout and have expected properties", () => {
     const newCheckout = new Checkout(rules);
     expect(newCheckout).toBeInstanceOf(Checkout);
     expect(typeof newCheckout).toBe('object')
     expect(newCheckout).toHaveProperty('rules')
     expect(newCheckout.rules).toHaveProperty('A')
   });
+});
 
-  
+describe('Test scan function', () => {
+    test.only('should add correct items to items object', () => {
+        const newCheckout = new Checkout(rules)
+        const item = 'A'
+        newCheckout.scan(item)
+        expect(newCheckout.items).toHaveProperty('A')
+        expect(newCheckout.items.A).toBe(1)
+        newCheckout.scan(item)
+        expect(newCheckout.items.A).toBe(2)
+      });
 });
