@@ -3,10 +3,19 @@ class Checkout {
     this.rules = rules;
     this.items = {};
   }
+
   scan(item) {
     if (this.items.hasOwnProperty(item)) this.items[item]++;
     else this.items[item] = 1;
   }
+
+  scanMultiple(multipleItems){
+    const itemArr = multipleItems.split('')
+    itemArr.forEach(item => {
+        this.scan(item)
+    })
+  }
+  
   total() {
     let totalPrice = 0
     for (let item in this.items){
