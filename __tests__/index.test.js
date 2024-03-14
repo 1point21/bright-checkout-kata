@@ -1,5 +1,6 @@
 const { Checkout } = require("../index");
 
+// change values here to test with different data sets
 const products = {
 A: [50, { number: 3, cost: 140 }],
 B: [30, { number: 2, cost: 45 }],
