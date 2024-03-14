@@ -4,6 +4,7 @@ class Checkout {
     this._items = {};
   }
 
+  // scan individual item
   scan(item) {
     if (this.products.hasOwnProperty(item)) {
       if (this._items.hasOwnProperty(item)) this._items[item]++;
@@ -11,6 +12,7 @@ class Checkout {
     }
   }
 
+  // scan multiple items (pass in string of multiple letters)
   scanMultiple(multipleItems) {
     const itemArr = multipleItems.split("");
     itemArr.forEach((item) => {
@@ -18,6 +20,7 @@ class Checkout {
     });
   }
 
+  // calculate total for items
   total() {
     let totalPrice = 0;
     for (let item in this._items) {
